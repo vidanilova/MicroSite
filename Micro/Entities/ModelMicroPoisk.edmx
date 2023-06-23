@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище MicroPoiskModel1" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Box">
+          <Key>
+            <PropertyRef Name="id_box" />
+          </Key>
+          <Property Name="id_box" Type="int" Nullable="false" />
+          <Property Name="number" Type="int" />
+          <Property Name="name" Type="nchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="id_card" />
+          </Key>
+          <Property Name="id_card" Type="int" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="25" />
+          <Property Name="symbol_id" Type="int" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="id_micro" />
+          </Key>
+          <Property Name="id_micro" Type="int" Nullable="false" />
+          <Property Name="id_box" Type="int" />
+          <Property Name="id_PropertyType" Type="int" />
+          <Property Name="id_card" Type="int" />
+          <Property Name="id_symbol" Type="int" />
+          <Property Name="cabinet_number" Type="int" />
+          <Property Name="floor" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="PropertyType">
+          <Key>
+            <PropertyRef Name="id_PropertyType" />
+          </Key>
+          <Property Name="id_PropertyType" Type="int" Nullable="false" />
+          <Property Name="Keys" Type="nchar" MaxLength="1" />
+          <Property Name="description" Type="nchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Symbol">
+          <Key>
+            <PropertyRef Name="id_symbol" />
+          </Key>
+          <Property Name="id_symbol" Type="int" Nullable="false" />
+          <Property Name="symbol" Type="nchar" MaxLength="1" />
+          <Property Name="descriprion" Type="nchar" MaxLength="35" />
+          <Property Name="unit" Type="nchar" MaxLength="2" />
+          <Property Name="pow10" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_List_Box">
+          <End Role="Box" Type="Self.Box" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Box">
+              <PropertyRef Name="id_box" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_box" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="id_card" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_card" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_PropertyType">
+          <End Role="PropertyType" Type="Self.PropertyType" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PropertyType">
+              <PropertyRef Name="id_PropertyType" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_PropertyType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Symbol">
+          <End Role="Symbol" Type="Self.Symbol" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Symbol">
+              <PropertyRef Name="id_symbol" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_symbol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MicroPoiskModel1Container">
+          <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="List" EntityType="Self.List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PropertyType" EntityType="Self.PropertyType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Symbol" EntityType="Self.Symbol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_List_Box" Association="Self.FK_List_Box">
+            <End Role="Box" EntitySet="Box" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Card" Association="Self.FK_List_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_PropertyType" Association="Self.FK_List_PropertyType">
+            <End Role="PropertyType" EntitySet="PropertyType" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Symbol" Association="Self.FK_List_Symbol">
+            <End Role="Symbol" EntitySet="Symbol" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MicroPoiskModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Box">
+          <Key>
+            <PropertyRef Name="id_box" />
+          </Key>
+          <Property Name="id_box" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Lists" Relationship="Self.FK_List_Box" FromRole="Box" ToRole="List" />
+        </EntityType>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="id_card" />
+          </Key>
+          <Property Name="id_card" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="symbol_id" Type="Int32" />
+          <NavigationProperty Name="Lists" Relationship="Self.FK_List_Card" FromRole="Card" ToRole="List" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="id_micro" />
+          </Key>
+          <Property Name="id_micro" Type="Int32" Nullable="false" />
+          <Property Name="id_box" Type="Int32" />
+          <Property Name="id_PropertyType" Type="Int32" />
+          <Property Name="id_card" Type="Int32" />
+          <Property Name="id_symbol" Type="Int32" />
+          <Property Name="cabinet_number" Type="Int32" />
+          <Property Name="floor" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Box" Relationship="Self.FK_List_Box" FromRole="List" ToRole="Box" />
+          <NavigationProperty Name="Card" Relationship="Self.FK_List_Card" FromRole="List" ToRole="Card" />
+          <NavigationProperty Name="PropertyType" Relationship="Self.FK_List_PropertyType" FromRole="List" ToRole="PropertyType" />
+          <NavigationProperty Name="Symbol" Relationship="Self.FK_List_Symbol" FromRole="List" ToRole="Symbol" />
+        </EntityType>
+        <EntityType Name="PropertyType">
+          <Key>
+            <PropertyRef Name="id_PropertyType" />
+          </Key>
+          <Property Name="id_PropertyType" Type="Int32" Nullable="false" />
+          <Property Name="Keys" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="15" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Lists" Relationship="Self.FK_List_PropertyType" FromRole="PropertyType" ToRole="List" />
+        </EntityType>
+        <EntityType Name="Symbol">
+          <Key>
+            <PropertyRef Name="id_symbol" />
+          </Key>
+          <Property Name="id_symbol" Type="Int32" Nullable="false" />
+          <Property Name="symbol1" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="descriprion" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <Property Name="unit" Type="String" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="pow10" Type="Int32" />
+          <NavigationProperty Name="Lists" Relationship="Self.FK_List_Symbol" FromRole="Symbol" ToRole="List" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_List_Box">
+          <End Role="Box" Type="Self.Box" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Box">
+              <PropertyRef Name="id_box" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_box" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="id_card" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_card" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_PropertyType">
+          <End Role="PropertyType" Type="Self.PropertyType" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PropertyType">
+              <PropertyRef Name="id_PropertyType" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_PropertyType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Symbol">
+          <End Role="Symbol" Type="Self.Symbol" Multiplicity="0..1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Symbol">
+              <PropertyRef Name="id_symbol" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="id_symbol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MicroPoiskEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Boxes" EntityType="Self.Box" />
+          <EntitySet Name="Cards" EntityType="Self.Card" />
+          <EntitySet Name="Lists" EntityType="Self.List" />
+          <EntitySet Name="PropertyTypes" EntityType="Self.PropertyType" />
+          <EntitySet Name="Symbols" EntityType="Self.Symbol" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_List_Box" Association="Self.FK_List_Box">
+            <End Role="Box" EntitySet="Boxes" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Card" Association="Self.FK_List_Card">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_PropertyType" Association="Self.FK_List_PropertyType">
+            <End Role="PropertyType" EntitySet="PropertyTypes" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Symbol" Association="Self.FK_List_Symbol">
+            <End Role="Symbol" EntitySet="Symbols" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MicroPoiskModel1Container" CdmEntityContainer="MicroPoiskEntities1">
+          <EntitySetMapping Name="Boxes">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.Box">
+              <MappingFragment StoreEntitySet="Box">
+                <ScalarProperty Name="id_box" ColumnName="id_box" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cards">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.Card">
+              <MappingFragment StoreEntitySet="Card">
+                <ScalarProperty Name="id_card" ColumnName="id_card" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="symbol_id" ColumnName="symbol_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lists">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.List">
+              <MappingFragment StoreEntitySet="List">
+                <ScalarProperty Name="id_micro" ColumnName="id_micro" />
+                <ScalarProperty Name="id_box" ColumnName="id_box" />
+                <ScalarProperty Name="id_PropertyType" ColumnName="id_PropertyType" />
+                <ScalarProperty Name="id_card" ColumnName="id_card" />
+                <ScalarProperty Name="id_symbol" ColumnName="id_symbol" />
+                <ScalarProperty Name="cabinet_number" ColumnName="cabinet_number" />
+                <ScalarProperty Name="floor" ColumnName="floor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PropertyTypes">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.PropertyType">
+              <MappingFragment StoreEntitySet="PropertyType">
+                <ScalarProperty Name="id_PropertyType" ColumnName="id_PropertyType" />
+                <ScalarProperty Name="Keys" ColumnName="Keys" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Symbols">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.Symbol">
+              <MappingFragment StoreEntitySet="Symbol">
+                <ScalarProperty Name="id_symbol" ColumnName="id_symbol" />
+                <ScalarProperty Name="symbol1" ColumnName="symbol" />
+                <ScalarProperty Name="descriprion" ColumnName="descriprion" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="pow10" ColumnName="pow10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MicroPoiskModel1.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
